@@ -78,9 +78,20 @@ Convex tables (see spec §17 for full schema): `users`, `roles`, `goals`, `tasks
 
 ## Commands
 
-Root scripts (Turborepo): `pnpm dev`, `pnpm build`, `pnpm lint`, `pnpm typecheck`,
-`pnpm test` (each delegates to `turbo <task>`). The turbo task graph is in
-`turbo.json`. None of this is scaffolded yet — establish it during initial setup.
+Root scripts (Turborepo, via pnpm): `pnpm dev`, `pnpm build`, `pnpm lint`,
+`pnpm typecheck`, `pnpm test` — each delegates to `turbo <task>` (`turbo.json`).
+Per package: `pnpm --filter @seven-habits/<name> <script>`
+(`core` test = vitest, `web`/`mobile`/`core` typecheck = `tsc --noEmit`).
+
+**One-time setup before backend/runtime works:** run `pnpm --filter
+@seven-habits/backend dev` (`convex dev`) once with a Convex account. This
+generates `packages/backend/convex/_generated/` (gitignored) and prints the
+`*_CONVEX_URL`. Until then, backend typecheck self-skips and the apps can't reach
+data at runtime. Also set Clerk keys in each app's `.env` (see `.env.example`).
+
+Toolchain note: pnpm is required; if missing, `npm i -g pnpm` (corepack hit an
+EPERM under `C:\Program Files\nodejs` on this machine). pnpm v11 uses the
+`allowBuilds:` map in `pnpm-workspace.yaml` to approve dependency build scripts.
 
 ## Environment Variables
 

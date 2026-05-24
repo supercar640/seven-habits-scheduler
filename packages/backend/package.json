@@ -1,0 +1,19 @@
+{
+  "name": "@seven-habits/backend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "convex dev",
+    "codegen": "convex codegen",
+    "typecheck": "node scripts/typecheck.mjs"
+  },
+  "dependencies": {
+    "@seven-habits/core": "workspace:*",
+    "convex": "^1.17.4"
+  },
+  "devDependencies": {
+    "@seven-habits/config": "workspace:*",
+    "typescript": "^5.7.2"
+  }
+}

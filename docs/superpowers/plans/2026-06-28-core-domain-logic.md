@@ -409,12 +409,20 @@ export function detectConflicts<T extends TimeBlock>(blocks: T[]): [T, T][] {
   const conflicts: [T, T][] = [];
 
   for (let i = 0; i < sorted.length; i++) {
+    const a = sorted[i];
+    if (!a) {
+      continue;
+    }
     for (let j = i + 1; j < sorted.length; j++) {
-      if (sorted[j].startAt >= sorted[i].endAt) {
+      const b = sorted[j];
+      if (!b) {
+        continue;
+      }
+      if (b.startAt >= a.endAt) {
         break;
       }
-      if (blocksOverlap(sorted[i], sorted[j])) {
-        conflicts.push([sorted[i], sorted[j]]);
+      if (blocksOverlap(a, b)) {
+        conflicts.push([a, b]);
       }
     }
   }
@@ -634,7 +642,10 @@ export const isoDateStringSchema = z
   .string()
   .regex(/^\d{4}-\d{2}-\d{2}$/, "Expected YYYY-MM-DD")
   .refine((value) => {
-    const [year, month, day] = value.split("-").map(Number);
+    const parts = value.split("-");
+    const year = Number(parts[0]);
+    const month = Number(parts[1]);
+    const day = Number(parts[2]);
     const date = new Date(year, month - 1, day);
     return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day;
   }, "Not a real calendar date");

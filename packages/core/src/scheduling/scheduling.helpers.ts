@@ -26,12 +26,20 @@ export function detectConflicts<T extends TimeBlock>(blocks: T[]): [T, T][] {
   const conflicts: [T, T][] = [];
 
   for (let i = 0; i < sorted.length; i++) {
+    const a = sorted[i];
+    if (!a) {
+      continue;
+    }
     for (let j = i + 1; j < sorted.length; j++) {
-      if (sorted[j].startAt >= sorted[i].endAt) {
+      const b = sorted[j];
+      if (!b) {
+        continue;
+      }
+      if (b.startAt >= a.endAt) {
         break;
       }
-      if (blocksOverlap(sorted[i], sorted[j])) {
-        conflicts.push([sorted[i], sorted[j]]);
+      if (blocksOverlap(a, b)) {
+        conflicts.push([a, b]);
       }
     }
   }

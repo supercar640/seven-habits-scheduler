@@ -8,7 +8,10 @@ export const isoDateStringSchema = z
   .string()
   .regex(/^\d{4}-\d{2}-\d{2}$/, "Expected YYYY-MM-DD")
   .refine((value) => {
-    const [year, month, day] = value.split("-").map(Number);
+    const parts = value.split("-");
+    const year = Number(parts[0]);
+    const month = Number(parts[1]);
+    const day = Number(parts[2]);
     const date = new Date(year, month - 1, day);
     return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day;
   }, "Not a real calendar date");

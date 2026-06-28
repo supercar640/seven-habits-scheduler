@@ -8,3 +8,9 @@ export interface Role {
   createdAt: number;
   updatedAt: number;
 }
+
+export interface RoleInput {
+  name: string;
+  description?: string;
+  sortOrder: number;
+}

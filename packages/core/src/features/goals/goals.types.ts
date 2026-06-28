@@ -12,3 +12,11 @@ export interface Goal {
   createdAt: number;
   updatedAt: number;
 }
+
+export interface GoalInput {
+  title: string;
+  description?: string;
+  horizon: GoalHorizon;
+  roleId?: string;
+  status: GoalStatus;
+}
